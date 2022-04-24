@@ -1,0 +1,13 @@
+BUILDING KILOBOTS AND REVISING KILOBOT DESIGN FOR IMPROVING THE OPTICAL RESPONSE 
+Objectives
+Kilobot is one of the commonly used robots for swarm robotics tests and developments.
+Purchasing Kilobots is expensive and it does not give the students a solid experience to
+understand the Kilobot hardware. In-house building and debugging can help students understand
+the operations and discover some aspects that they can work with for further development. The
+main goal of this research is to build and revise Kilobot in-house to support swarm robotics
+experiments. The main objectives of this research include the following:
+• Create guidelines on building and debugging Kilobot in-house based on our building
+experience.
+• Update the design to allow a more flexible experiment environment than before.
+• Verify the performance of Kilobot that we built in relevant experiments.
+• Increase the number of Kilobots
