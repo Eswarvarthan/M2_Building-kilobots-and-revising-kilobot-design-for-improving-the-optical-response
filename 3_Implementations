@@ -1,0 +1,202 @@
+Kilobot ambient light sensor test code using Arduino Uno
+void setup() {
+ // enable serial output
+ Serial.begin(9600);
+}
+void loop() {
+ // read ADC and convert to Voltage
+int adcValue1 = analogRead(A0);
+int adcValue2 = analogRead(A1);
+int adcValue3 = analogRead(A2);
+int adcValue4 = analogRead(A3);
+int adcValue5 = analogRead(A4);
+int adcValue6 = analogRead(A5);
+ Serial.println( "\t" "\t" "Measured1=" + String(adcValue1) + "\t" "\t" "Measured2=" + String(adcValue2)
++ "\t" "\t" "Measured3="+ String(adcValue3) + "\t" "\t" "Measured4=" + String(adcValue4) + "\t" "\t"
+"Measured5=" + String(adcValue5) + "\t" "\t" "Measured6=" + String(adcValue6));
+
+Kilobot code for ambient Light sensitivity
+#include <kilolib.h>
+#define DEBUG
+#include <debug.h>
+int current_light = 0;
+void sample_light()
+{
+ // The ambient light sensor gives noisy readings. To mitigate this,
+ // we take the average of 300 samples in quick succession.
+ int number_of_samples = 0;
+ uint32_t sum = 0;
+ while (number_of_samples < 100)
+ {
+ int sample = get_ambientlight();
+ // -1 indicates a failed sample, which should be discarded.
+ if (sample != -1)
+ {
+ sum = sum + sample;
+ number_of_samples = number_of_samples + 1;
+ }
+ }
+ // Compute the average.
+ current_light = sum / number_of_samples;
+ delay(500);
+}
+void setup() { }
+// print voltage every second
+void loop() {
+sample_light();
+ delay(100);
+ set_color(RGB(1, 1, 0));
+Kilobot code for ambient Light sensitivity
+#include <kilolib.h>
+#define DEBUG
+#include <debug.h>
+int current_light = 0;
+void sample_light()
+{
+ // The ambient light sensor gives noisy readings. To mitigate this,
+ // we take the average of 300 samples in quick succession.
+ int number_of_samples = 0;
+ uint32_t sum = 0;
+ while (number_of_samples < 100)
+ {
+ int sample = get_ambientlight();
+ // -1 indicates a failed sample, which should be discarded.
+ if (sample != -1)
+ {
+ sum = sum + sample;
+ number_of_samples = number_of_samples + 1;
+ }
+ }
+ // Compute the average.
+ current_light = sum / number_of_samples;
+ delay(500);
+}
+void setup() { }
+// print voltage every second
+void loop() {
+sample_light();
+ delay(100);
+ set_color(RGB(1, 1, 0));
+Kilobot code for ambient Light sensitivity
+#include <kilolib.h>
+#define DEBUG
+#include <debug.h>
+int current_light = 0;
+void sample_light()
+{
+ // The ambient light sensor gives noisy readings. To mitigate this,
+ // we take the average of 300 samples in quick succession.
+ int number_of_samples = 0;
+ uint32_t sum = 0;
+ while (number_of_samples < 100)
+ {
+ int sample = get_ambientlight();
+ // -1 indicates a failed sample, which should be discarded.
+ if (sample != -1)
+ {
+ sum = sum + sample;
+ number_of_samples = number_of_samples + 1;
+ }
+ }
+ // Compute the average.
+ current_light = sum / number_of_samples;
+ delay(500);
+}
+void setup() { }
+// print voltage every second
+void loop() {
+sample_light();
+ delay(100);
+ set_color(RGB(1, 1, 0));
+ Kilobot code for ambient Light sensitivity
+#include <kilolib.h>
+#define DEBUG
+#include <debug.h>
+int current_light = 0;
+void sample_light()
+{
+ // The ambient light sensor gives noisy readings. To mitigate this,
+ // we take the average of 300 samples in quick succession.
+ int number_of_samples = 0;
+ uint32_t sum = 0;
+ while (number_of_samples < 100)
+ {
+ int sample = get_ambientlight();
+ // -1 indicates a failed sample, which should be discarded.
+ if (sample != -1)
+ {
+ sum = sum + sample;
+ number_of_samples = number_of_samples + 1;
+ }
+ }
+ // Compute the average.
+ current_light = sum / number_of_samples;
+ delay(500);
+}
+void setup() { }
+// print voltage every second
+void loop() {
+sample_light();
+ delay(100);
+ set_color(RGB(1, 1, 0));
+void setup()
+{
+ // This ensures that the robot starts moving.
+ set_motion(LEFT);
+}
+void loop()
+{
+ sample_light();
+//changes behaviour of Kilobots based on light intensity
+ if (current_light>=THRESH_HI){
+set_color(RGB(1, 1, 1));
+ set_motion(FORWARD);
+}
+ else if (current_light > previous_light)
+ {
+ // Generate an 8-bit random number (between 0 and 2^8 - 1 = 255).
+ int random_number = rand_hard();
+ 
+ // Compute the remainder of random_number when divided by 4.
+ // This gives a new random number in the set {0, 1, 2, 3}.
+ int random_direction = (random_number % 4);
+ 
+ // There is a 50% chance of random_direction being 0 OR 1, in which
+ // case set the LED green and move forward.
+ if ((random_direction == 0) || (random_direction == 1))
+ {
+ set_color(RGB(0, 1, 1));
+ set_motion(FORWARD);
+delay(1000);
+ }
+ // There is a 25% chance of random_direction being 2, in which case
+// set the LED red and move left.
+ else if (random_direction == 2)
+ {
+ set_color(RGB(1, 0, 0));
+ set_motion(LEFT);
+delay(1000);
+ }
+ // There is a 25% chance of random_direction being 3, in which case
+ // set the LED blue and move right.
+ else if (random_direction == 3)
+ {
+ set_color(RGB(0, 0, 1));
+ set_motion(RIGHT);
+delay(1000);
+ }
+ }
+ else if (current_light < previous_light)
+ {
+ set_color(RGB(0, 1, 0));
+ set_motion(FORWARD);
+ delay(1000);
+ }
+previous_light=current_light;
+}
+int main()
+{
+ kilo_init();
+ kilo_start(setup, loop);
+ return 0;
+}
